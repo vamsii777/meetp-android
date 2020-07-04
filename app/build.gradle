@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "network.oversee.buttin"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 3
+        versionName "1.0.2"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.0-beta01'
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    implementation 'com.google.firebase:firebase-database:19.3.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp:1.5.1'
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
+
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    implementation 'io.github.inflationx:calligraphy3:3.1.1'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
+
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+    implementation 'me.relex:circleindicator:2.1.4'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+
+    implementation('org.jitsi.react:jitsi-meet-sdk:2.9.0') { transitive = true }
+
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+    implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
+
+    implementation 'com.github.florent37:diagonallayout:1.0.9'
+
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
+
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
