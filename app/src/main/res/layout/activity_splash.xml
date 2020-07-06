@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/colorPrimary"
-    tools:context="network.oversee.buttin.SplashActivity">
+    tools:context="download.crossally.apps.hizkiyyah.SplashActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,10 +15,11 @@
 
         <ImageView
             android:id="@+id/img"
-            android:background="@drawable/vmeet_tansparent_white_350"
+            android:background="@drawable/ic_meeting"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:scaleType="fitXY"
+            android:layout_marginBottom="24dp"
             android:fitsSystemWindows="true" />
 
         <TextView

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.webilestudio.vmeet">
+    package="download.crossally.apps.hizkiyyah">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,21 +16,22 @@
     <application
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
-        android:name="network.oversee.buttin.utils.SharedObjects"
+        android:name="download.crossally.apps.hizkiyyah.utils.SharedObjects"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="UnusedAttribute">
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id"/>
 
         <activity
-            android:name="network.oversee.buttin.SplashActivity"
+            android:name="download.crossally.apps.hizkiyyah.SplashActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:noHistory="true"
@@ -44,14 +45,14 @@
         </activity>
 
         <activity
-            android:name="network.oversee.buttin.IntroActivity"
+            android:name="download.crossally.apps.hizkiyyah.IntroActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="network.oversee.buttin.RegisterActivity"
+            android:name="download.crossally.apps.hizkiyyah.RegisterActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
@@ -59,7 +60,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="network.oversee.buttin.EmailVerificationActivity"
+            android:name="download.crossally.apps.hizkiyyah.EmailVerificationActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
@@ -67,7 +68,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="network.oversee.buttin.LoginActivity"
+            android:name="download.crossally.apps.hizkiyyah.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
@@ -75,7 +76,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="network.oversee.buttin.MainActivity"
+            android:name="download.crossally.apps.hizkiyyah.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
@@ -84,21 +85,21 @@
 
         <activity
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize"
-            android:name="network.oversee.buttin.meeting.MeetingActivity"
+            android:name="download.crossally.apps.hizkiyyah.meeting.MeetingActivity"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true"
             android:label="@string/app_name"/>
 
         <activity
-            android:name="network.oversee.buttin.profile.ProfileActivity"
+            android:name="download.crossally.apps.hizkiyyah.profile.ProfileActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="network.oversee.buttin.schedule.ScheduleMeetingActivity"
+            android:name="download.crossally.apps.hizkiyyah.schedule.ScheduleMeetingActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"

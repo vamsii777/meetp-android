@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name">Buttin</string>
-
+    <string name="app_name">Meetp</string>
     <string name="version">Version %1$s</string>
     <string name="ok">OK</string>
-
     <string name="email">Email ID</string>
     <string name="mobile">Mobile</string>
     <string name="password">Password</string>
@@ -87,11 +85,12 @@
     <string name="meeting_saved">Meeting Saved</string>
     <string name="meeting_scheduled">Meeting Scheduled</string>
 
-    <string name="app_id"></string>
-    <string name="vmeet_banner"></string>
-    <string name="vmeet_interstitial"></string>
+    <string name="app_id">ca-app-pub-9530431913684433~9725700609</string>
+    <string name="meet_banner">ca-app-pub-9530431913684433/2722212514</string>
+    <string name="meet_interstitial">ca-app-pub-9530431913684433/8428645390</string>
 
     <string name="done">Done</string>
     <string name="add_to_calendar">Add to Calendar</string>
     <string name="update_now">Update Now</string>
+    <string name="or_continue_with">OR continue with</string>
 </resources>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/appBg"
     android:fitsSystemWindows="true"
-    tools:context="network.oversee.buttin.IntroActivity">
+    tools:context="download.crossally.apps.hizkiyyah.IntroActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:background="@drawable/vmeet_tansparent_350"
+                    android:background="@drawable/ic_meeting"
                     android:layout_width="115dp"
                     android:layout_height="115dp" />
 
