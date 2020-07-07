@@ -1,1 +1,1 @@
-# Buttin-Android
+meep-android (Based on Jitsi SDK & Firebase SDK)
