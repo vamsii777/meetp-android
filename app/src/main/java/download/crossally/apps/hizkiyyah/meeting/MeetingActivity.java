@@ -30,9 +30,7 @@ public class MeetingActivity extends FragmentActivity implements JitsiMeetActivi
 
     private JitsiMeetView view;
     SharedObjects sharedObjects ;
-
     DatabaseManager mDatabaseManager;
-
     MeetingHistory meetingHistory = null;
 
     @Override
@@ -85,6 +83,9 @@ public class MeetingActivity extends FragmentActivity implements JitsiMeetActivi
                     .setServerURL(new URL("https://meet.jit.si"))
                     .setRoom(AppConstants.MEETING_ID)
                     .setUserInfo(jitsiMeetUserInfo)
+                    //.setFeatureFlag("meeting-password.enabled", false)
+                    //.setFeatureFlag("live-streaming.enabled", false)
+                    //.setFeatureFlag("recording.enabled", false)
                     .setFeatureFlag("invite.enabled", false)
                     .setFeatureFlag("pip.enabled", true)
                     .setWelcomePageEnabled(false)

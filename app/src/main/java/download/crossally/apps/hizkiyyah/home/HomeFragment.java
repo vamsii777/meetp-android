@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment implements DatabaseManager.OnDatabase
         adView = view.findViewById(R.id.adView);
         mInterstitialAd = new InterstitialAd(getActivity());
         // set the ad unit ID
-        // mInterstitialAd.setAdUnitId(getString(R.string.vmeet_interstitial));
+        mInterstitialAd.setAdUnitId(getString(R.string.meet_interstitial));
 
         bindAdvtView();
 
@@ -526,7 +526,7 @@ public class HomeFragment extends Fragment implements DatabaseManager.OnDatabase
                     inputLayoutCode.setError(getString(R.string.errMeetingCode));
                     return;
                 }
-                if (edtCode.getText().toString().length() < 11) {
+                if (edtCode.getText().toString().length() < 8) {
                     inputLayoutCode.setErrorEnabled(true);
                     inputLayoutCode.setError(getString(R.string.errMeetingCodeInValid));
                     return;
