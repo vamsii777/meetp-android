@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDexApplication;
 
+import com.bugsnag.android.Bugsnag;
 import com.facebook.stetho.Stetho;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -32,7 +33,7 @@ public class SharedObjects extends MultiDexApplication {
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
     public static int PRIVATE_MODE = 0;
-    public static String PREF_NAME = "Buttin";
+    public static String PREF_NAME = "Meetp";
 
     private static SharedObjects instance;
 
@@ -70,6 +71,7 @@ public class SharedObjects extends MultiDexApplication {
         instance = new SharedObjects(this);
         super.onCreate();
         context = getApplicationContext();
+        Bugsnag.start(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 

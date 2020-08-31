@@ -1,71 +1,49 @@
-package download.crossally.apps.hizkiyyah.utils;
+package download.crossally.apps.hizkiyyah.utils
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import download.crossally.apps.hizkiyyah.R
+import download.crossally.apps.hizkiyyah.bean.Intro
+import java.util.*
 
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-
-import download.crossally.apps.hizkiyyah.R;
-import download.crossally.apps.hizkiyyah.bean.Intro;
-
-import java.util.ArrayList;
-
-
-public class IntroPagerAdapter extends PagerAdapter {
-
-    ArrayList<Intro> arrSlider;
-    LayoutInflater inflater;
-    Context context;
-
-    public IntroPagerAdapter(Context context, ArrayList<Intro> arrSlider) {
-        this.context = context;
-        this.arrSlider = arrSlider;
+class IntroPagerAdapter(var context: Context, var arrSlider: ArrayList<Intro>) : PagerAdapter() {
+    var inflater: LayoutInflater? = null
+    override fun getCount(): Int {
+        return arrSlider.size
     }
 
-    @Override
-    public int getCount() {
-        return arrSlider.size();
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object` as LinearLayout
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == ((LinearLayout) object);
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-
-        ImageView imgPreview;
-        TextView txtContent,txtTitle, txtTitle1;
-
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemview = inflater.inflate(R.layout.itemview_intro, container, false);
-
-        imgPreview = itemview.findViewById(R.id.imgPreview);
-        txtTitle = itemview.findViewById(R.id.txtTitle);
-
-        imgPreview.setImageDrawable(arrSlider.get(position).getImg());
-        txtTitle.setText(arrSlider.get(position).getTitle());
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        val imgPreview: ImageView
+        var txtContent: TextView
+        val txtTitle: TextView
+        var txtTitle1: TextView
+        inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val itemview = inflater!!.inflate(R.layout.itemview_intro, container, false)
+        imgPreview = itemview.findViewById(R.id.imgPreview)
+        txtTitle = itemview.findViewById(R.id.txtTitle)
+        imgPreview.setImageDrawable(arrSlider[position].img)
+        txtTitle.text = arrSlider[position].title
 
         //add item.xml to viewpager
-        ((ViewPager) container).addView(itemview);
-        return itemview;
+        (container as ViewPager).addView(itemview)
+        return itemview
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         // Remove viewpager_item.xml from ViewPager
-        ((ViewPager) container).removeView((LinearLayout) object);
-    }
-
-    /*@Override
+        (container as ViewPager).removeView(`object` as LinearLayout)
+    } /*@Override
     public float getPageWidth(int position) {
         return .20f;   //it is used for set page widht of view pager
     }*/

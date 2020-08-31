@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/appBg"
-    tools:context=".hizkiyyah.profile.ProfileActivity">
+    tools:context=".profile.ProfileActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -50,10 +50,10 @@
                     <ImageView
                         android:id="@+id/imgBack"
                         android:padding="3dp"
-                        android:tint="@color/primaryText"
                         android:src="@drawable/ic_back"
                         android:layout_width="30dp"
-                        android:layout_height="30dp"/>
+                        android:layout_height="30dp"
+                        app:tint="@color/primaryText" />
 
                     <TextView
                         android:layout_width="0dp"

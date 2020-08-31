@@ -71,7 +71,7 @@
                     android:textSize="14sp"
                     app:rippleColor="@color/colorPrimaryRipple"
                     app:backgroundTint="@color/colorPrimary"
-                    app:cornerRadius="20dp" />
+                    app:cornerRadius="8dp" />
 
             </LinearLayout>
 

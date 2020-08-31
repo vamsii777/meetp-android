@@ -1,471 +1,324 @@
-package download.crossally.apps.hizkiyyah.firebase;
+package download.crossally.apps.hizkiyyah.firebase
 
-import android.content.Context;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import download.crossally.apps.hizkiyyah.bean.MeetingHistory;
-import download.crossally.apps.hizkiyyah.bean.Schedule;
-import download.crossally.apps.hizkiyyah.bean.UserBean;
-import download.crossally.apps.hizkiyyah.utils.AppConstants;
-import download.crossally.apps.hizkiyyah.utils.SharedObjects;
-
-import java.util.ArrayList;
-
+import android.content.Context
+import android.util.Log
+import com.google.firebase.database.*
+import download.crossally.apps.hizkiyyah.bean.MeetingHistory
+import download.crossally.apps.hizkiyyah.bean.Schedule
+import download.crossally.apps.hizkiyyah.bean.UserBean
+import download.crossally.apps.hizkiyyah.utils.AppConstants
+import download.crossally.apps.hizkiyyah.utils.SharedObjects
+import java.util.*
 
 /**
  * The common Database manager is used for storing signin info and other meeting parser classed with list of firebase database
  * references
  */
-public class DatabaseManager {
-
-    private static final String TAG = DatabaseManager.class.getSimpleName();
-
-    private FirebaseDatabase mDatabase;
-
-    DatabaseReference databaseUsers;
-    DatabaseReference databaseMeetingHistory;
-    DatabaseReference databaseSchedule;
-
-    private OnDatabaseDataChanged mDatabaseListener;
-    private OnUserAddedListener onUserAddedListener;
-    private OnUserListener onUserListener;
-    private OnUserPasswordListener onUserPasswordListener;
-    private OnScheduleListener onScheduleListener;
-    private OnMeetingHistoryListener onMeetingHistoryListener;
-    private OnUserDeleteListener onUserDeleteListener;
-
-    Context context;
-
-    ArrayList<MeetingHistory> arrMeetingHistory = new ArrayList<>();
-    ArrayList<Schedule> arrSchedule = new ArrayList<>();
-    ArrayList<UserBean> arrUsers = new ArrayList<>();
-
-    SharedObjects sharedObjects;
-
-    UserBean userBean = null;
-
-    public DatabaseManager(Context context) {
-        this.context = context;
-
-        sharedObjects = new SharedObjects(context);
-
-        mDatabase = FirebaseDatabase.getInstance();
-
-        databaseUsers = mDatabase.getReference(AppConstants.Table.USERS);
-        databaseUsers.keepSynced(true);
-
-        databaseMeetingHistory = mDatabase.getReference(AppConstants.Table.MEETING_HISTORY);
-        databaseMeetingHistory.keepSynced(true);
-
-        databaseSchedule = mDatabase.getReference(AppConstants.Table.SCHEDULE);
-        databaseSchedule.keepSynced(true);
-    }
-
-    public void initUsers() {
-        databaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+class DatabaseManager(var context: Context) {
+    private val mDatabase: FirebaseDatabase
+    var databaseUsers: DatabaseReference
+    var databaseMeetingHistory: DatabaseReference
+    var databaseSchedule: DatabaseReference
+    private var mDatabaseListener: OnDatabaseDataChanged? = null
+    private var onUserAddedListener: OnUserAddedListener? = null
+    var onUserListener: OnUserListener? = null
+    private var onUserPasswordListener: OnUserPasswordListener? = null
+    var onScheduleListener: OnScheduleListener? = null
+    private val onMeetingHistoryListener: OnMeetingHistoryListener? = null
+    private val onUserDeleteListener: OnUserDeleteListener? = null
+    var userMeetingHistory = ArrayList<MeetingHistory>()
+    var userSchedule = ArrayList<Schedule>()
+    var users = ArrayList<UserBean>()
+    var sharedObjects: SharedObjects
+    var currentUser: UserBean? = null
+    fun initUsers() {
+        databaseUsers.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
-                    arrUsers = new ArrayList<>();
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        UserBean customer = postSnapshot.getValue(UserBean.class);
+                    users = ArrayList<UserBean>()
+                    for (postSnapshot in dataSnapshot.children) {
+                        val customer = postSnapshot.getValue(UserBean::class.java)
                         if (customer != null) {
-                            arrUsers.add(customer);
+                            users.add(customer)
                         }
                     }
                     if (mDatabaseListener != null) {
-                        mDatabaseListener.onDataChanged(AppConstants.Table.USERS, dataSnapshot);
+                        mDatabaseListener!!.onDataChanged(AppConstants.Table.USERS, dataSnapshot)
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, databaseError.getMessage());
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, databaseError.message)
                 if (mDatabaseListener != null) {
-                    mDatabaseListener.onCancelled(databaseError);
+                    mDatabaseListener!!.onCancelled(databaseError)
                 }
             }
-        });
+        })
     }
 
-    public ArrayList<UserBean> getUsers() {
-        return arrUsers;
-    }
-
-    public UserBean getCurrentUser() {
-        return userBean;
-    }
-
-    public void addUser(UserBean bean) {
+    fun addUser(bean: UserBean) {
 //        String id = databaseUsers.push().getKey();
 //        bean.setId(id);
-        databaseUsers.child(bean.getId()).setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (onUserAddedListener != null) {
-                    onUserAddedListener.onSuccess();
-                }
+        databaseUsers.child(bean.id).setValue(bean).addOnSuccessListener {
+            if (onUserAddedListener != null) {
+                onUserAddedListener!!.onSuccess()
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (onUserAddedListener != null) {
-                    onUserAddedListener.onFail();
-                }
+        }.addOnFailureListener {
+            if (onUserAddedListener != null) {
+                onUserAddedListener!!.onFail()
             }
-        });
+        }
     }
 
-    public void updateUser(UserBean bean) {
-        DatabaseReference db = databaseUsers.child(bean.getId());
-        db.setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (onUserAddedListener != null) {
-                    onUserAddedListener.onSuccess();
-                }
+    fun updateUser(bean: UserBean) {
+        val db = databaseUsers.child(bean.id)
+        db.setValue(bean).addOnSuccessListener {
+            if (onUserAddedListener != null) {
+                onUserAddedListener!!.onSuccess()
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (onUserAddedListener != null) {
-                    onUserAddedListener.onFail();
-                }
+        }.addOnFailureListener {
+            if (onUserAddedListener != null) {
+                onUserAddedListener!!.onFail()
             }
-        });
+        }
     }
 
-    public void getUser(final String id) {
-        Query query = databaseUsers.orderByChild("id").equalTo(id);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+    fun getUser(id: String) {
+        val query = databaseUsers.orderByChild("id").equalTo(id)
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        if (postSnapshot.getValue(UserBean.class).getId().equals(id)) {
-                            userBean = postSnapshot.getValue(UserBean.class);
+                    for (postSnapshot in dataSnapshot.children) {
+                        if (postSnapshot.getValue(UserBean::class.java)!!.id == id) {
+                            currentUser = postSnapshot.getValue(UserBean::class.java)
                         }
-
                     }
                 }
                 if (onUserListener != null) {
-                    onUserListener.onUserFound();
+                    onUserListener!!.onUserFound()
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            override fun onCancelled(databaseError: DatabaseError) {
                 if (onUserListener != null) {
-                    onUserListener.onUserNotFound();
+                    onUserListener!!.onUserNotFound()
                 }
             }
-        });
+        })
     }
 
-    public void updateUserPassword(UserBean bean) {
-        DatabaseReference db = databaseUsers.child(bean.getId());
-        db.setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (onUserPasswordListener!= null) {
-                    onUserPasswordListener.onPasswordUpdateSuccess();
-                }
+    fun updateUserPassword(bean: UserBean) {
+        val db = databaseUsers.child(bean.id)
+        db.setValue(bean).addOnSuccessListener {
+            if (onUserPasswordListener != null) {
+                onUserPasswordListener!!.onPasswordUpdateSuccess()
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (onUserPasswordListener != null) {
-                    onUserPasswordListener.onPasswordUpdateFail();
-                }
+        }.addOnFailureListener {
+            if (onUserPasswordListener != null) {
+                onUserPasswordListener!!.onPasswordUpdateFail()
             }
-        });
+        }
     }
 
-    public void deleteUser(UserBean bean) {
-        databaseUsers.child(bean.getId()).removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                if (databaseError != null) {
-                    if (onUserDeleteListener != null) {
-                        onUserDeleteListener.onUserDeleteFail();
-                    }
-                } else {
-                    if (onUserDeleteListener != null) {
-                        onUserDeleteListener.onUserDeleteSuccess();
-                    }
-                }
+    fun deleteUser(bean: UserBean) {
+        databaseUsers.child(bean.id).removeValue { databaseError, databaseReference ->
+            if (databaseError != null) {
+                onUserDeleteListener?.onUserDeleteFail()
+            } else {
+                onUserDeleteListener?.onUserDeleteSuccess()
             }
-        });
+        }
     }
 
-    public void getScheduleByUser(final String id) {
-        Query query = databaseSchedule.orderByChild("userId").equalTo(id);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                arrSchedule = new ArrayList<>();
+    fun getScheduleByUser(id: String) {
+        val query = databaseSchedule.orderByChild("userId").equalTo(id)
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                userSchedule = ArrayList<Schedule>()
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        if (postSnapshot.getValue(Schedule.class).getUserId().equals(id)) {
-                            Schedule products = postSnapshot.getValue(Schedule.class);
+                    for (postSnapshot in dataSnapshot.children) {
+                        if (postSnapshot.getValue(Schedule::class.java)!!.userId == id) {
+                            val products = postSnapshot.getValue(Schedule::class.java)
                             if (products != null) {
-                                arrSchedule.add(products);
+                                userSchedule.add(products)
                             }
                         }
-
                     }
                 }
                 if (mDatabaseListener != null) {
-                    mDatabaseListener.onDataChanged(AppConstants.Table.SCHEDULE, dataSnapshot);
+                    mDatabaseListener!!.onDataChanged(AppConstants.Table.SCHEDULE, dataSnapshot)
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            override fun onCancelled(databaseError: DatabaseError) {
                 if (mDatabaseListener != null) {
-                    mDatabaseListener.onCancelled(databaseError);
+                    mDatabaseListener!!.onCancelled(databaseError)
                 }
             }
-        });
+        })
     }
 
-    public ArrayList<Schedule> getUserSchedule() {
-        return arrSchedule;
+    fun addSchedule(bean: Schedule) {
+        val id = databaseSchedule.push().key
+        bean.id = id
+        databaseSchedule.child(bean.id).setValue(bean).addOnSuccessListener {
+            if (onScheduleListener != null) {
+                onScheduleListener!!.onAddSuccess()
+            }
+        }.addOnFailureListener {
+            if (onScheduleListener != null) {
+                onScheduleListener!!.onAddFail()
+            }
+        }
     }
 
-    public void addSchedule(Schedule bean) {
-        String id = databaseSchedule.push().getKey();
-        bean.setId(id);
-        databaseSchedule.child(bean.getId()).setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
+    fun updateSchedule(bean: Schedule) {
+        val db = databaseSchedule.child(bean.id)
+        db.setValue(bean).addOnSuccessListener {
+            if (onScheduleListener != null) {
+                onScheduleListener!!.onUpdateSuccess()
+            }
+        }.addOnFailureListener {
+            if (onScheduleListener != null) {
+                onScheduleListener!!.onUpdateFail()
+            }
+        }
+    }
+
+    fun deleteSchedule(bean: Schedule) {
+        databaseSchedule.child(bean.id).removeValue { databaseError, databaseReference ->
+            if (databaseError != null) {
                 if (onScheduleListener != null) {
-                    onScheduleListener.onAddSuccess();
+                    onScheduleListener!!.onDeleteFail()
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+            } else {
                 if (onScheduleListener != null) {
-                    onScheduleListener.onAddFail();
+                    onScheduleListener!!.onDeleteSuccess()
                 }
             }
-        });
+        }
     }
 
-    public void updateSchedule(Schedule bean) {
-        DatabaseReference db = databaseSchedule.child(bean.getId());
-        db.setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (onScheduleListener != null) {
-                    onScheduleListener.onUpdateSuccess();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (onScheduleListener != null) {
-                    onScheduleListener.onUpdateFail();
-                }
-            }
-        });
+    fun addMeetingHistory(bean: MeetingHistory) {
+        databaseMeetingHistory.child(bean.id).setValue(bean).addOnSuccessListener { aVoid: Void? -> onMeetingHistoryListener?.onAddSuccess() }.addOnFailureListener { onMeetingHistoryListener?.onAddFail() }
     }
 
-    public void deleteSchedule(Schedule bean) {
-        databaseSchedule.child(bean.getId()).removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+    val keyForMeetingHistory: String?
+        get() = databaseMeetingHistory.push().key
 
-                if (databaseError != null) {
-                    if (onScheduleListener != null) {
-                        onScheduleListener.onDeleteFail();
-                    }
-                } else {
-                    if (onScheduleListener != null) {
-                        onScheduleListener.onDeleteSuccess();
-                    }
-                }
-            }
-        });
+    fun updateMeetingHistory(bean: MeetingHistory) {
+        val db = databaseMeetingHistory.child(bean.id)
+        db.setValue(bean).addOnSuccessListener { onMeetingHistoryListener?.onUpdateSuccess() }.addOnFailureListener { onMeetingHistoryListener?.onUpdateFail() }
     }
 
-    public void addMeetingHistory(MeetingHistory bean) {
-        databaseMeetingHistory.child(bean.getId()).setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (onMeetingHistoryListener != null) {
-                    onMeetingHistoryListener.onAddSuccess();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (onMeetingHistoryListener != null) {
-                    onMeetingHistoryListener.onAddFail();
-                }
-            }
-        });
-    }
-
-    public String getKeyForMeetingHistory() {
-        return  databaseMeetingHistory.push().getKey();
-    }
-
-    public void updateMeetingHistory(MeetingHistory bean) {
-        DatabaseReference db = databaseMeetingHistory.child(bean.getId());
-        db.setValue(bean).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (onMeetingHistoryListener != null) {
-                    onMeetingHistoryListener.onUpdateSuccess();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (onMeetingHistoryListener != null) {
-                    onMeetingHistoryListener.onUpdateFail();
-                }
-            }
-        });
-    }
-
-    public void getMeetingHistoryByUser(final String userId) {
-        Query query = databaseMeetingHistory.orderByChild("userId").equalTo(userId);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                arrMeetingHistory = new ArrayList<>();
+    fun getMeetingHistoryByUser(userId: String) {
+        val query = databaseMeetingHistory.orderByChild("userId").equalTo(userId)
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                userMeetingHistory = ArrayList<MeetingHistory>()
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        if (postSnapshot.getValue(MeetingHistory.class).getUserId().equals(userId)) {
-                            MeetingHistory meetingHistory = postSnapshot.getValue(MeetingHistory.class);
+                    for (postSnapshot in dataSnapshot.children) {
+                        if (postSnapshot.getValue(MeetingHistory::class.java)!!.userId == userId) {
+                            val meetingHistory = postSnapshot.getValue(MeetingHistory::class.java)
                             if (meetingHistory != null) {
-                                arrMeetingHistory.add(meetingHistory);
+                                userMeetingHistory.add(meetingHistory)
                             }
                         }
-
                     }
                 }
                 if (mDatabaseListener != null) {
-                    mDatabaseListener.onDataChanged(AppConstants.Table.MEETING_HISTORY, dataSnapshot);
+                    mDatabaseListener!!.onDataChanged(AppConstants.Table.MEETING_HISTORY, dataSnapshot)
                 }
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            override fun onCancelled(databaseError: DatabaseError) {
                 if (mDatabaseListener != null) {
-                    mDatabaseListener.onCancelled(databaseError);
+                    mDatabaseListener!!.onCancelled(databaseError)
                 }
             }
-        });
+        })
     }
 
-    public ArrayList<MeetingHistory> getUserMeetingHistory() {
-        return arrMeetingHistory;
-    }
-
-    public void deleteMeetingHistory(MeetingHistory bean) {
-        databaseMeetingHistory.child(bean.getId()).removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                if (databaseError != null) {
-                    if (onMeetingHistoryListener != null) {
-                        onMeetingHistoryListener.onDeleteFail();
-                    }
-                } else {
-                    if (onMeetingHistoryListener != null) {
-                        onMeetingHistoryListener.onDeleteSuccess();
-                    }
-                }
+    fun deleteMeetingHistory(bean: MeetingHistory) {
+        databaseMeetingHistory.child(bean.id).removeValue { databaseError, databaseReference ->
+            if (databaseError != null) {
+                onMeetingHistoryListener?.onDeleteFail()
+            } else {
+                onMeetingHistoryListener?.onDeleteSuccess()
             }
-        });
+        }
     }
 
-    public interface OnUserListener {
-        void onUserFound();
-        void onUserNotFound();
+    interface OnUserListener {
+        fun onUserFound()
+        fun onUserNotFound()
     }
 
-    public interface OnDatabaseDataChanged {
-        void onDataChanged(String url, DataSnapshot dataSnapshot);
-        void onCancelled(DatabaseError error);
+    interface OnDatabaseDataChanged {
+        fun onDataChanged(url: String?, dataSnapshot: DataSnapshot?)
+        fun onCancelled(error: DatabaseError?)
     }
 
-    public interface OnUserAddedListener {
-        void onSuccess();
-        void onFail();
+    interface OnUserAddedListener {
+        fun onSuccess()
+        fun onFail()
     }
 
-    public interface OnUserDeleteListener {
-        void onUserDeleteSuccess();
-        void onUserDeleteFail();
+    interface OnUserDeleteListener {
+        fun onUserDeleteSuccess()
+        fun onUserDeleteFail()
     }
 
-    public void setOnUserAddedListener(OnUserAddedListener listener) {
-        onUserAddedListener = listener;
+    fun setOnUserAddedListener(listener: OnUserAddedListener?) {
+        onUserAddedListener = listener
     }
 
-    public void setDatabaseManagerListener(OnDatabaseDataChanged listener) {
-        mDatabaseListener = listener;
+    fun setDatabaseManagerListener(listener: OnDatabaseDataChanged?) {
+        mDatabaseListener = listener
     }
 
-    public interface OnUserPasswordListener {
-        void onPasswordUpdateSuccess();
-        void onPasswordUpdateFail();
+    interface OnUserPasswordListener {
+        fun onPasswordUpdateSuccess()
+        fun onPasswordUpdateFail()
     }
 
-    public interface OnScheduleListener {
-        void onAddSuccess();
-        void onUpdateSuccess();
-        void onDeleteSuccess();
-        void onAddFail();
-        void onUpdateFail();
-        void onDeleteFail();
+    interface OnScheduleListener {
+        fun onAddSuccess()
+        fun onUpdateSuccess()
+        fun onDeleteSuccess()
+        fun onAddFail()
+        fun onUpdateFail()
+        fun onDeleteFail()
     }
 
-    public interface OnMeetingHistoryListener {
-        void onAddSuccess();
-        void onUpdateSuccess();
-        void onDeleteSuccess();
-        void onAddFail();
-        void onUpdateFail();
-        void onDeleteFail();
+    interface OnMeetingHistoryListener {
+        fun onAddSuccess()
+        fun onUpdateSuccess()
+        fun onDeleteSuccess()
+        fun onAddFail()
+        fun onUpdateFail()
+        fun onDeleteFail()
     }
 
-    public void setOnUserPasswordListener(OnUserPasswordListener onUserPasswordListener) {
-        this.onUserPasswordListener = onUserPasswordListener;
+    fun setOnUserPasswordListener(onUserPasswordListener: OnUserPasswordListener?) {
+        this.onUserPasswordListener = onUserPasswordListener
     }
 
-    public OnUserListener getOnUserListener() {
-        return onUserListener;
+    companion object {
+        private val TAG = DatabaseManager::class.java.simpleName
     }
 
-    public void setOnUserListener(OnUserListener onUserListener) {
-        this.onUserListener = onUserListener;
-    }
-
-    public OnScheduleListener getOnScheduleListener() {
-        return onScheduleListener;
-    }
-
-    public void setOnScheduleListener(OnScheduleListener onScheduleListener) {
-        this.onScheduleListener = onScheduleListener;
+    init {
+        sharedObjects = SharedObjects(context)
+        mDatabase = FirebaseDatabase.getInstance()
+        databaseUsers = mDatabase.getReference(AppConstants.Table.USERS)
+        databaseUsers.keepSynced(true)
+        databaseMeetingHistory = mDatabase.getReference(AppConstants.Table.MEETING_HISTORY)
+        databaseMeetingHistory.keepSynced(true)
+        databaseSchedule = mDatabase.getReference(AppConstants.Table.SCHEDULE)
+        databaseSchedule.keepSynced(true)
     }
 }

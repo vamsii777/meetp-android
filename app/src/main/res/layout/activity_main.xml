@@ -18,8 +18,6 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:itemBackground="@color/white"
         android:foreground="?attr/selectableItemBackground"
         app:itemIconTint="@color/nav_selector"
         app:itemTextColor="@color/nav_text_selector"

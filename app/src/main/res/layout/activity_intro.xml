@@ -17,10 +17,10 @@
         <com.github.florent37.diagonallayout.DiagonalLayout
             android:id="@+id/diagonalLayout"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="180dp"
             android:layout_alignParentBottom="true"
             android:elevation="0dp"
-            diagonal:diagonal_angle="10"
+            diagonal:diagonal_angle="180"
             diagonal:diagonal_position="top">
 
             <ImageView
@@ -35,7 +35,8 @@
             android:layout_height="100dp"
             android:elevation="0dp"
             app:diagonal_direction="left"
-            diagonal:diagonal_angle="10"
+            diagonal:diagonal_angle="90"
+            android:visibility="gone"
             diagonal:diagonal_position="bottom">
 
             <ImageView
@@ -60,6 +61,7 @@
                 android:id="@+id/circleIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:visibility="gone"
                 app:ci_drawable="@drawable/ic_circle_selected"
                 app:ci_drawable_unselected="@drawable/ic_circle_deselected" />
 
@@ -69,7 +71,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="60dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnJoin"

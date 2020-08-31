@@ -109,9 +109,9 @@
                     android:textAllCaps="false"
                     android:textColor="@color/colorPrimary"
                     app:backgroundTint="@color/white"
-                    app:cornerRadius="20dp"
+                    app:cornerRadius="12dp"
                     app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="1.5dp" />
+                    app:strokeWidth="1.7dp" />
 
             </LinearLayout>
 

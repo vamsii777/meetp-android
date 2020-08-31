@@ -23,6 +23,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -31,6 +32,7 @@ import androidx.viewpager.widget.ViewPager
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.github.ajalt.timberkt.Timber
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -38,6 +40,7 @@ import com.google.firebase.database.*
 import download.crossally.apps.hizkiyyah.IntroActivity
 import download.crossally.apps.hizkiyyah.RegisterActivity
 import download.crossally.apps.hizkiyyah.bean.Intro
+import download.crossally.apps.hizkiyyah.bean.MeetingAuth
 import download.crossally.apps.hizkiyyah.bean.MeetingHistory
 import download.crossally.apps.hizkiyyah.firebase.DatabaseManager
 import download.crossally.apps.hizkiyyah.meeting.MeetingActivity
@@ -77,6 +80,7 @@ class IntroActivity : AppCompatActivity() {
     var appPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
     var databaseManager: DatabaseManager? = null
     private var databaseReferenceMeetingHistory: DatabaseReference? = null
+    private var databaseReferenceMeetingId: DatabaseReference? = null
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
@@ -92,16 +96,17 @@ class IntroActivity : AppCompatActivity() {
         databaseManager = DatabaseManager(this@IntroActivity)
         //        databaseManager.setDatabaseManagerListener(this);
         databaseReferenceMeetingHistory = FirebaseDatabase.getInstance().getReference(AppConstants.Table.MEETING_HISTORY)
-        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_1), "Start a Meeting"))
-        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_2), "Schedule Your Meeting"))
-        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_3), "Message Your Team"))
-        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_meeting), "Get Meetp!"))
+        databaseReferenceMeetingId = FirebaseDatabase.getInstance().getReference(AppConstants.Table.MEETING_ID)
+        //arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_1), "Start a Meeting"))
+        //arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_2), "Schedule Your Meeting"))
+        //arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_3), "Message Your Team"))
+        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_meeting), "Welcome to Meetp!"))
         introPagerAdapter = IntroPagerAdapter(this@IntroActivity, arrSlider)
         viewPager!!.adapter = introPagerAdapter
         circleIndicator!!.setViewPager(viewPager)
 
         //enable if need auto slider
-        val handler = Handler()
+        /*val handler = Handler()
         val update = Runnable {
             if (currentPage == NUM_PAGES) {
                 currentPage = 0
@@ -113,7 +118,7 @@ class IntroActivity : AppCompatActivity() {
             override fun run() {
                 handler.post(update)
             }
-        }, DELAY_MS, PERIOD_MS)
+        }, DELAY_MS, PERIOD_MS)*/
     }
 
     @OnClick(R.id.btnLogin, R.id.btnSignUp, R.id.btnJoin)
@@ -196,7 +201,7 @@ class IntroActivity : AppCompatActivity() {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 inputLayoutCode!!.setErrorEnabled(false)
                 inputLayoutCode!!.setError("")
-                if (charSequence.length == 11) {
+                if (charSequence.length == 16) {
                     checkMeetingExists(charSequence.toString())
                 } else {
                     isMeetingExist = false
@@ -217,29 +222,56 @@ class IntroActivity : AppCompatActivity() {
         val btnAdd = dialogDate.findViewById<Button>(R.id.btnAdd)
         val btnCancel = dialogDate.findViewById<Button>(R.id.btnCancel)
         btnAdd.setOnClickListener(View.OnClickListener {
+            val query = databaseReferenceMeetingId!!.orderByChild("meeting_id").equalTo(edtCode!!.getText().toString())
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        Timber.tag("Meeting").e("exists")
+                        for (postSnapshot in dataSnapshot.children) {
+                            if (postSnapshot.getValue(MeetingAuth::class.java)!!.meeting_id == edtCode!!.getText().toString()) {
+                                //isMeetingExist = true
+                                AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
+                                AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
+                                dialogDate.dismiss()
+                                startActivity(Intent(this@IntroActivity, MeetingActivity::class.java))
+
+                            }
+                        }
+
+                    } else {
+                        //isMeetingExist = false
+                        Toast.makeText(this@IntroActivity,"Error! Unauthorized meeting not allowed", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    isMeetingExist = false
+                }
+            })
             if (TextUtils.isEmpty(edtCode!!.getText().toString().trim { it <= ' ' })) {
-                inputLayoutCode!!.setErrorEnabled(true)
+                inputLayoutCode!!.isErrorEnabled = true
                 inputLayoutCode!!.setError(getString(R.string.errMeetingCode))
                 return@OnClickListener
             }
             if (edtCode!!.getText().toString().length < 8) {
-                inputLayoutCode!!.setErrorEnabled(true)
+                inputLayoutCode!!.isErrorEnabled = true
                 inputLayoutCode!!.setError(getString(R.string.errMeetingCodeInValid))
                 return@OnClickListener
             }
-            if (!isMeetingExist) {
+           /* if (!isMeetingExist) {
                 AppConstants.showAlertDialog(resources.getString(R.string.meeting_not_exist), this@IntroActivity)
                 return@OnClickListener
-            }
+            }*/
             if (TextUtils.isEmpty(edtName!!.getText().toString().trim { it <= ' ' })) {
-                inputLayoutName!!.setErrorEnabled(true)
+                inputLayoutName!!.isErrorEnabled = true
                 inputLayoutName!!.setError(getString(R.string.err_name))
                 return@OnClickListener
             }
-            AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
+            /*AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
             AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
             dialogDate.dismiss()
-            startActivity(Intent(this@IntroActivity, MeetingActivity::class.java))
+            startActivity(Intent(this@IntroActivity, MeetingActivity::class.java))*/
         })
         btnCancel.setOnClickListener { dialogDate.dismiss() }
         if (!dialogDate.isShowing) {

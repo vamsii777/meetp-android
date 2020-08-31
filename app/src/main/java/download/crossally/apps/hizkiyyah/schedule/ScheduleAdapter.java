@@ -87,21 +87,15 @@ public class ScheduleAdapter extends RecyclerSwipeAdapter<ScheduleAdapter.ViewHo
             holder.txtTime.setVisibility(View.GONE);
         }
 
-        holder.btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    mItemManger.closeItem(position);
-                    onItemClickListener.onStartClickListener(position, list.get(position));
-                }
+        holder.btnStart.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                mItemManger.closeItem(position);
+                onItemClickListener.onStartClickListener(position, list.get(position));
             }
-        }); holder.llDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    mItemManger.closeItem(position);
-                    onItemClickListener.onDeleteClickListener(position, list.get(position));
-                }
+        }); holder.llDelete.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                mItemManger.closeItem(position);
+                onItemClickListener.onDeleteClickListener(position, list.get(position));
             }
         });
 

@@ -23,12 +23,13 @@ public class AppConstants {
     public static String NAME = "NAME";
     public static String MEETING_ID = "MEETING_ID";
 
-    public static final String IMAGE_DIRECTORY_NAME = "Buttin";
-    public static final String Storage_Path = "Images/";
+    public static final String IMAGE_DIRECTORY_NAME = "Meetp";
+    public static final String Storage_Path = "users/images/";
 
     public static class Table {
         public static String USERS = "Users";
         public static String MEETING_HISTORY = "MeetingHistory";
+        public static String MEETING_ID = "MeetingId";
         public static String SCHEDULE = "Schedule";
     }
 

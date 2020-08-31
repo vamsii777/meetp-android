@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.google.firebase.auth.FirebaseAuth
-import download.crossally.apps.hizkiyyah.SplashActivity
+
 import download.crossally.apps.hizkiyyah.utils.SharedObjects
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
