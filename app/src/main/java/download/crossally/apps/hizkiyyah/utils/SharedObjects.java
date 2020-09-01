@@ -1,5 +1,6 @@
 package download.crossally.apps.hizkiyyah.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -49,8 +50,9 @@ public class SharedObjects extends MultiDexApplication {
     public SharedObjects() {
     }
 
+    @SuppressLint("CommitPrefEdits")
     public SharedObjects(Context context) {
-        this.context = context;
+        SharedObjects.context = context;
         initializeStetho();
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
