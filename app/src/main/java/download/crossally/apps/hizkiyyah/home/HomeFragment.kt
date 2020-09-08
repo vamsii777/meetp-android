@@ -215,7 +215,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
     }
 
     fun setUserData() {
-        userBean = sharedObjects!!.userInfo
+        userBean = sharedObjects!!.userInfo()
         if (userBean != null) {
             if (!TextUtils.isEmpty(userBean?.profile_pic)) {
                 Picasso.get().load(userBean?.profile_pic)
@@ -228,7 +228,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
             } else {
                 txtUserName!!.text = "Hi, "
             }
-            databaseManager!!.getMeetingHistoryByUser(sharedObjects?.userInfo?.id!!) // meetingid by userid
+            databaseManager!!.getMeetingHistoryByUser(sharedObjects?.userInfo()?.id!!) // meetingid by userid
         } else {
             txtUserName!!.text = "Hi, "
             imgUser!!.setImageDrawable(ContextCompat.getDrawable(activity!!, R.drawable.avatar))
@@ -397,7 +397,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
         edtName = dialogDate.findViewById(R.id.edtName)
         inputLayoutName!!.isEnabled = false
         edtName!!.isEnabled = false
-        edtName!!.setText(sharedObjects!!.userInfo.name)
+        edtName!!.setText(sharedObjects!!.userInfo()?.name)
         edtCode!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {

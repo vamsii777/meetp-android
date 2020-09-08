@@ -87,8 +87,8 @@ class ScheduleFragment : Fragment(), OnDatabaseDataChanged {
 
     val data: Unit
         get() {
-            if (sharedObjects!!.userInfo != null) {
-                databaseManager!!.getScheduleByUser(sharedObjects!!.userInfo.id)
+            if (sharedObjects?.userInfo() != null) {
+                databaseManager!!.getScheduleByUser(sharedObjects?.userInfo()!!.id)
             }
         }
 

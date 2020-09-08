@@ -132,7 +132,7 @@ class ProfileActivity : AppCompatActivity(), OnUserAddedListener {
         //Get Firebase auth instance
         firebaseAuth = FirebaseAuth.getInstance()
         sharedObjects = SharedObjects(this@ProfileActivity)
-        userBean = sharedObjects!!.userInfo
+        userBean = sharedObjects!!.userInfo()
         dfUsers = FirebaseDatabase.getInstance().getReference(AppConstants.Table.USERS)
         mDatabaseManager = DatabaseManager(this@ProfileActivity)
         mDatabaseManager!!.setOnUserAddedListener(this)

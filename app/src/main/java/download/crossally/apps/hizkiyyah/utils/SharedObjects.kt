@@ -55,9 +55,13 @@ class SharedObjects : MultiDexApplication {
         Smartlook.setupAndStartRecording("94ea4378c7929993fe016a701ff175c3de7b81c1");
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
-    val gson = GsonBuilder().create();
-    val userInfo: UserBean get() = gson.fromJson(getPreference(AppConstants.USER_INFO), UserBean::class.java)
 
+    //val gson = GsonBuilder().create();
+    //val userInfo: UserBean get() = Gson().fromJson(getPreference(AppConstants.USER_INFO), UserBean::class.java)
+
+    fun userInfo(): UserBean? {
+        return Gson().fromJson(getPreference(AppConstants.USER_INFO), UserBean::class.java)
+    }
 
     fun initializeStetho() {
         val initializerBuilder = Stetho.newInitializerBuilder(context)

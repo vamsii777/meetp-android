@@ -272,7 +272,7 @@ class ScheduleMeetingActivity : AppCompatActivity() {
 //                schedule = scheduleBean;
             } else {
                 scheduleBean = Schedule()
-                scheduleBean!!.userId = sharedObjects!!.userInfo.id
+                scheduleBean!!.userId = sharedObjects?.userInfo()!!.id
                 scheduleBean!!.meeetingId = meetingCode
             }
             scheduleBean!!.duration = numberPicker!!.progress.toString() + ""

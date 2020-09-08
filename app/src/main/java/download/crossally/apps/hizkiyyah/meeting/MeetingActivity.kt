@@ -37,11 +37,11 @@ class MeetingActivity : FragmentActivity(), JitsiMeetActivityInterface {
         sharedObjects = SharedObjects(this@MeetingActivity)
         mDatabaseManager = DatabaseManager(this@MeetingActivity)
         var userBean: UserBean? = null
-        if (sharedObjects!!.userInfo != null) {
-            userBean = sharedObjects!!.userInfo
+        if (sharedObjects?.userInfo() != null) {
+            userBean = sharedObjects?.userInfo()
             meetingHistory = MeetingHistory()
             meetingHistory!!.id = mDatabaseManager!!.keyForMeetingHistory
-            meetingHistory!!.userId = sharedObjects!!.userInfo.id
+            meetingHistory!!.userId = sharedObjects!!.userInfo()?.id
             meetingHistory!!.meeting_id = AppConstants.MEETING_ID
         }
         val jitsiMeetUserInfo = JitsiMeetUserInfo()

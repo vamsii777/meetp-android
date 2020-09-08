@@ -117,8 +117,8 @@ class MeetingHistoryFragment : Fragment(), OnDatabaseDataChanged {
 
     val data: Unit
         get() {
-            if (sharedObjects!!.userInfo != null) {
-                databaseManager!!.getMeetingHistoryByUser(sharedObjects!!.userInfo.id)
+            if (sharedObjects?.userInfo() != null) {
+                databaseManager!!.getMeetingHistoryByUser(sharedObjects?.userInfo()!!.id)
             }
         }
 
