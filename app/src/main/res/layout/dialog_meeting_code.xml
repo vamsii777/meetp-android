@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:inputType="text"
-                android:maxLength="11"
+                android:maxLength="48"
                 android:textColor="@color/primaryText"
                 android:textSize="14sp" />
 

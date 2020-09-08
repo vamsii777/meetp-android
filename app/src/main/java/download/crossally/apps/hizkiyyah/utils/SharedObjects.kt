@@ -1,195 +1,187 @@
-package download.crossally.apps.hizkiyyah.utils;
+package download.crossally.apps.hizkiyyah.utils
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.os.Build;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.os.Build
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.MultiDexApplication
+import com.bugsnag.android.Bugsnag
+import com.facebook.stetho.Stetho
+import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.smartlook.sdk.smartlook.Smartlook
+import download.crossally.apps.hizkiyyah.R
+import download.crossally.apps.hizkiyyah.bean.UserBean
+import io.github.inflationx.calligraphy3.CalligraphyConfig
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor
+import io.github.inflationx.viewpump.ViewPump
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDexApplication;
+class SharedObjects : MultiDexApplication {
+    var sharedPreference: SharedPreferences? = null
+    var editor: SharedPreferences.Editor? = null
 
-import com.bugsnag.android.Bugsnag;
-import com.facebook.stetho.Stetho;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import download.crossally.apps.hizkiyyah.R;
-import download.crossally.apps.hizkiyyah.bean.UserBean;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import io.github.inflationx.calligraphy3.CalligraphyConfig;
-import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
-import io.github.inflationx.viewpump.ViewPump;
-
-public class SharedObjects extends MultiDexApplication {
-
-    public static Context context;
-    SharedPreferences sharedPreference;
-    SharedPreferences.Editor editor;
-    public static int PRIVATE_MODE = 0;
-    public static String PREF_NAME = "Meetp";
-
-    private static SharedObjects instance;
-
-    public static SharedObjects getInstance() {
-        return instance;
-    }
-
-    public static Context getContext() {
-        return instance;
-        // or return instance.getApplicationContext();
-    }
-
-    public SharedObjects() {
-    }
+    constructor() {}
 
     @SuppressLint("CommitPrefEdits")
-    public SharedObjects(Context context) {
-        SharedObjects.context = context;
-        initializeStetho();
-
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        sharedPreference = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = sharedPreference.edit();
-
+    constructor(context: Context) {
+        Companion.context = context
+        initializeStetho()
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        sharedPreference = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        editor = sharedPreference!!.edit()
         ViewPump.init(ViewPump.builder()
-                .addInterceptor(new CalligraphyInterceptor(
-                        new CalligraphyConfig.Builder()
+                .addInterceptor(CalligraphyInterceptor(
+                        CalligraphyConfig.Builder()
                                 .setDefaultFontPath("fonts/montserrat_regular.ttf")
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
-                .build());
+                .build())
     }
 
-    @Override
-    public void onCreate() {
-        instance = new SharedObjects(this);
-        super.onCreate();
-        context = getApplicationContext();
-        Bugsnag.start(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    override fun onCreate() {
+        instance = SharedObjects(this)
+        super.onCreate()
+        context = applicationContext
+        Bugsnag.start(this)
+        Smartlook.setupAndStartRecording("94ea4378c7929993fe016a701ff175c3de7b81c1");
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+    }
+    val gson = GsonBuilder().create();
+    val userInfo: UserBean get() = gson.fromJson(getPreference(AppConstants.USER_INFO), UserBean::class.java)
+
+
+    fun initializeStetho() {
+        val initializerBuilder = Stetho.newInitializerBuilder(context)
+        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context))
+        initializerBuilder.enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+        val initializer = initializerBuilder.build()
+        Stetho.initialize(initializer)
     }
 
-    public UserBean getUserInfo(){
-        return new Gson().fromJson(getPreference(AppConstants.USER_INFO), UserBean.class);
+    @SuppressLint("CommitPrefEdits")
+    fun setPreference(key: String?, value: String?) {
+        editor = sharedPreference!!.edit()
+        editor!!.putString(key, value)
+        editor!!.commit()
     }
 
-    public void initializeStetho() {
-        Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(context);
-        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context));
-        initializerBuilder.enableDumpapp(Stetho.defaultDumperPluginsProvider(context));
-        Stetho.Initializer initializer = initializerBuilder.build();
-        Stetho.initialize(initializer);
-    }
-
-    public static boolean isNetworkConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
-    }
-
-    public static void hideKeyboard(View view, Context c) {
-        InputMethodManager inputMethodManager = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    public static String pad(int c) {
-        if (c >= 10)
-            return String.valueOf(c);
-        else
-            return "0" + String.valueOf(c);
-    }
-
-    public static String getVersion(Context context) {
-        String versionName = "";
-        try {
-            versionName = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionName;
-    }
-
-    public static String getDeviceVersion() {
-        return Build.VERSION.RELEASE;
-    }
-
-    public static String getDeviceName() {
-        String manufacturer = Build.MANUFACTURER;
-        String model = Build.MODEL;
-        if (model.startsWith(manufacturer)) {
-            return capitalize(model);
-        } else {
-            return capitalize(manufacturer) + " " + model;
+    fun getPreference(key: String?): String? {
+        return try {
+            sharedPreference!!.getString(key, "")
+        } catch (exception: Exception) {
+            ""
         }
     }
 
-    private static String capitalize(String s) {
-        if (s == null || s.length() == 0) {
-            return "";
-        }
-        char first = s.charAt(0);
-        if (Character.isUpperCase(first)) {
-            return s;
-        } else {
-            return Character.toUpperCase(first) + s.substring(1);
+    fun removeSinglePreference(pref: String?) {
+        if (sharedPreference!!.contains(pref)) {
+            editor = sharedPreference!!.edit()
+            editor!!.remove(pref)
+            editor!!.commit()
         }
     }
 
-    public static String getTodaysDate(String dateFormat) {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat(dateFormat);
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
+    fun clear() {
+        editor = sharedPreference!!.edit()
+        editor!!.clear()
+        editor!!.commit()
     }
 
-    public static String convertDateFormat(String dateString, String originalDateFormat, String outputDateFormat) {
-        String finalDate = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(originalDateFormat);
-        try {
-            Date date = simpleDateFormat.parse(dateString);
-            simpleDateFormat = new SimpleDateFormat(outputDateFormat);
-            finalDate = simpleDateFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var context: Context? = null
+        var PRIVATE_MODE = 0
+        var PREF_NAME = "Meetp"
+
+        @SuppressLint("StaticFieldLeak")
+        var instance: SharedObjects? = null
+            private set
+
+        @JvmName("getContext1")
+        fun getContext(): Context? {
+            return instance
+            // or return instance.getApplicationContext();
         }
-        return finalDate;
-    }
 
-    public void setPreference(String key, String value) {
-        editor = sharedPreference.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
+        fun isNetworkConnected(context: Context): Boolean {
+            val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+            return cm.activeNetworkInfo != null
+        }
 
-    public String getPreference(String key) {
-        try {
-            return sharedPreference.getString(key, "");
-        } catch (Exception exception) {
-            return "";
+        fun hideKeyboard(view: View, c: Context) {
+            val inputMethodManager = c.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+
+        @JvmStatic
+        fun pad(c: Int): String {
+            return if (c >= 10) c.toString() else "0$c"
+        }
+
+        fun getVersion(context: Context): String {
+            var versionName = ""
+            try {
+                versionName = context.packageManager
+                        .getPackageInfo(context.packageName, 0).versionName
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+            return versionName
+        }
+
+        val deviceVersion: String
+            get() = Build.VERSION.RELEASE
+        val deviceName: String
+            get() {
+                val manufacturer = Build.MANUFACTURER
+                val model = Build.MODEL
+                return if (model.startsWith(manufacturer)) {
+                    capitalize(model)
+                } else {
+                    capitalize(manufacturer) + " " + model
+                }
+            }
+
+        private fun capitalize(s: String?): String {
+            if (s == null || s.length == 0) {
+                return ""
+            }
+            val first = s[0]
+            return if (Character.isUpperCase(first)) {
+                s
+            } else {
+                Character.toUpperCase(first).toString() + s.substring(1)
+            }
+        }
+
+        @JvmStatic
+        fun getTodaysDate(dateFormat: String?): String {
+            val c = Calendar.getInstance()
+            @SuppressLint("SimpleDateFormat") val df = SimpleDateFormat(dateFormat)
+            return df.format(c.time)
+        }
+
+        @JvmStatic
+        fun convertDateFormat(dateString: String?, originalDateFormat: String?, outputDateFormat: String?): String? {
+            var finalDate: String? = null
+            var simpleDateFormat = SimpleDateFormat(originalDateFormat)
+            try {
+                val date = simpleDateFormat.parse(dateString)
+                simpleDateFormat = SimpleDateFormat(outputDateFormat)
+                finalDate = simpleDateFormat.format(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            return finalDate
         }
     }
-
-    public void removeSinglePreference(String pref) {
-        if (sharedPreference.contains(pref)) {
-            editor = sharedPreference.edit();
-            editor.remove(pref);
-            editor.commit();
-        }
-    }
-
-    public void clear() {
-        editor = sharedPreference.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-
 }

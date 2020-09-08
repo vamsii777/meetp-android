@@ -205,7 +205,7 @@ class ProfileActivity : AppCompatActivity(), OnUserAddedListener {
                 AppConstants.showAlertDialog(getString(R.string.err_internet), this@ProfileActivity)
             }
             R.id.txtSave -> {
-                SharedObjects.hideKeyboard(txtSave, this@ProfileActivity)
+                SharedObjects.hideKeyboard(txtSave!!, this@ProfileActivity)
                 if (TextUtils.isEmpty(edtName!!.text.toString().trim { it <= ' ' })) {
                     inputLayoutName!!.isErrorEnabled = true
                     inputLayoutName!!.error = getString(R.string.err_name)

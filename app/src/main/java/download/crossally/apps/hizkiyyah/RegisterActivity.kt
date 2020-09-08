@@ -116,7 +116,7 @@ class RegisterActivity() : AppCompatActivity() {
                 startActivityForResult(signInIntent, SIGN_IN_REQUEST)
             }
             R.id.btnRegister -> {
-                SharedObjects.hideKeyboard(btnRegister, this@RegisterActivity)
+                SharedObjects.hideKeyboard(btnRegister!!, this@RegisterActivity)
                 if (SharedObjects.isNetworkConnected(this@RegisterActivity)) {
                     if (!validateName()) {
                         return

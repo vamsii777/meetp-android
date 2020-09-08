@@ -201,7 +201,7 @@ class IntroActivity : AppCompatActivity() {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 inputLayoutCode!!.setErrorEnabled(false)
                 inputLayoutCode!!.setError("")
-                if (charSequence.length == 16) {
+                if (charSequence.length >= 16) {
                     checkMeetingExists(charSequence.toString())
                 } else {
                     isMeetingExist = false

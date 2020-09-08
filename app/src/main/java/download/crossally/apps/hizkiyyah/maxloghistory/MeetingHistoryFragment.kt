@@ -66,7 +66,7 @@ class MeetingHistoryFragment : Fragment(), OnDatabaseDataChanged {
         val view = inflater.inflate(R.layout.fragment_meeting_history, container, false)
         ButterKnife.bind(this, view)
         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        sharedObjects = SharedObjects(activity)
+        sharedObjects = SharedObjects(activity!!)
         databaseManager = DatabaseManager(activity!!)
         databaseManager!!.setDatabaseManagerListener(this)
         adView = view.findViewById(R.id.adView)
@@ -86,7 +86,7 @@ class MeetingHistoryFragment : Fragment(), OnDatabaseDataChanged {
     }
 
     private fun bindAdvtView() {
-        if (SharedObjects.isNetworkConnected(Objects.requireNonNull(activity))) {
+        if (SharedObjects.isNetworkConnected(Objects.requireNonNull(activity!!))) {
             val adRequest = AdRequest.Builder() //                      .addTestDevice("23F1C653C3AF44D748738885C1F91FDA")
                     .build()
             adView!!.adListener = object : AdListener() {
@@ -143,7 +143,7 @@ class MeetingHistoryFragment : Fragment(), OnDatabaseDataChanged {
             }
             meetingHistoryAdapter = MeetingHistoryAdapter(arrMeetingHistory, activity)
             rvHistory!!.adapter = meetingHistoryAdapter
-            rvHistory!!.addItemDecoration(SimpleDividerItemDecoration(activity))
+            rvHistory!!.addItemDecoration(SimpleDividerItemDecoration(activity!!))
             meetingHistoryAdapter!!.setOnItemClickListener(object : MeetingHistoryAdapter.OnItemClickListener {
                 override fun onItemClickListener(position: Int, bean: MeetingHistory) {}
                 override fun onDeleteClickListener(position: Int, bean: MeetingHistory) {

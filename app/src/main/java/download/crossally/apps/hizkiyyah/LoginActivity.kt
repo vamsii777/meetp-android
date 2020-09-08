@@ -155,7 +155,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 startActivityForResult(signInIntent, SIGN_IN_REQUEST)
             }
             R.id.btnLogin -> {
-                SharedObjects.hideKeyboard(btnLogin, this@LoginActivity)
+                SharedObjects.hideKeyboard(btnLogin!!, this@LoginActivity)
                 if (SharedObjects.isNetworkConnected(this@LoginActivity)) {
                     if (!validateEmail()) {
                         return

@@ -91,7 +91,7 @@ class EmailVerificationActivity : AppCompatActivity() {
         when (view.id) {
             R.id.btnVerify -> if (firebaseAuth != null && firebaseAuth!!.currentUser != null) {
                 firebaseAuth!!.currentUser!!.reload()
-                SharedObjects.hideKeyboard(btnVerify, this@EmailVerificationActivity)
+                SharedObjects.hideKeyboard(btnVerify!!, this@EmailVerificationActivity)
                 if (SharedObjects.isNetworkConnected(this@EmailVerificationActivity)) {
                     if (firebaseAuth!!.currentUser != null && firebaseAuth!!.currentUser!!.isEmailVerified) {
                         val intent = Intent(this@EmailVerificationActivity, MainActivity::class.java)

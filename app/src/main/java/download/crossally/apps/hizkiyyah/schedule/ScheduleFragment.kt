@@ -69,7 +69,7 @@ class ScheduleFragment : Fragment(), OnDatabaseDataChanged {
         val view = inflater.inflate(R.layout.fragment_schedule, container, false)
         ButterKnife.bind(this, view)
         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        sharedObjects = SharedObjects(activity)
+        sharedObjects = SharedObjects(activity!!)
         databaseManager = DatabaseManager(requireActivity())
         databaseManager!!.setDatabaseManagerListener(this)
         data
@@ -115,7 +115,7 @@ class ScheduleFragment : Fragment(), OnDatabaseDataChanged {
             }
             scheduleAdapter = ScheduleAdapter(arrSchedule, activity)
             rvEvents!!.adapter = scheduleAdapter
-            rvEvents!!.addItemDecoration(SimpleDividerItemDecoration(activity))
+            rvEvents!!.addItemDecoration(SimpleDividerItemDecoration(activity!!))
             scheduleAdapter!!.setOnItemClickListener(object : ScheduleAdapter.OnItemClickListener {
                 override fun onItemClickListener(position: Int, bean: Schedule) {
                     startActivity(Intent(activity, ScheduleMeetingActivity::class.java)

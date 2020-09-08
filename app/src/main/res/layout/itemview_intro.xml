@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Where Most Meetings Simplified."
+        android:text="Meetings Simplified."
         android:layout_marginTop="14dp"
         android:textAppearance="@style/FontPath.Light"
         android:textColor="@color/nav_selector"

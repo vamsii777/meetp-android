@@ -254,7 +254,7 @@ class ScheduleMeetingActivity : AppCompatActivity() {
     }
 
     private fun validateAndSaveMeeting() {
-        SharedObjects.hideKeyboard(txtSave, this@ScheduleMeetingActivity)
+        SharedObjects.hideKeyboard(txtSave!!, this@ScheduleMeetingActivity)
         if (TextUtils.isEmpty(edtTitle!!.text.toString().trim { it <= ' ' })) {
             inputLayoutTitle!!.isErrorEnabled = true
             inputLayoutTitle!!.error = getString(R.string.err_title)
@@ -293,8 +293,8 @@ class ScheduleMeetingActivity : AppCompatActivity() {
         var startTime = ""
         date = edtDate!!.text.toString().trim { it <= ' ' }
         val splitDate = date.split("-".toRegex()).toTypedArray()
-        startTime = SharedObjects.convertDateFormat(edtStartTime!!.text.toString().trim { it <= ' ' },
-                AppConstants.DateFormats.TIME_FORMAT_12, AppConstants.DateFormats.TIME_FORMAT_24)
+        startTime = SharedObjects!!.convertDateFormat(edtStartTime!!.text.toString().trim { it <= ' ' },
+                AppConstants.DateFormats.TIME_FORMAT_12, AppConstants.DateFormats.TIME_FORMAT_24)!!
         val splitStartTime = startTime.split(":".toRegex()).toTypedArray()
         val calStartTime = Calendar.getInstance()
         calStartTime[splitDate[2].toInt(), splitDate[1].toInt() - 1, splitDate[0].toInt(), splitStartTime[0].toInt()] = splitStartTime[1].toInt()

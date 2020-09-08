@@ -40,7 +40,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         ButterKnife.bind(this, view)
-        sharedObjects = SharedObjects(activity)
+        sharedObjects = SharedObjects(activity!!)
         return view
     }
 
@@ -49,7 +49,7 @@ class SettingsFragment : Fragment() {
         when (v.id) {
             R.id.llProfile -> startActivity(Intent(activity, ProfileActivity::class.java))
             R.id.llLogout -> (activity as MainActivity?)!!.removeAllPreferenceOnLogout()
-            R.id.llRateUs -> if (SharedObjects.isNetworkConnected(activity)) {
+            R.id.llRateUs -> if (SharedObjects.isNetworkConnected(activity!!)) {
                 val appPackageName = activity!!.packageName // getPackageName() from Context or Activity object
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))

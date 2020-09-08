@@ -18,6 +18,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
@@ -107,7 +108,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         ButterKnife.bind(this, view)
         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        sharedObjects = SharedObjects(activity)
+        sharedObjects = SharedObjects(activity!!)
         databaseManager = DatabaseManager(requireActivity())
         databaseManager!!.setDatabaseManagerListener(this)
         setUserData()
@@ -148,7 +149,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
     }
 
     private fun bindAdvtView() {
-        if (SharedObjects.isNetworkConnected(Objects.requireNonNull(activity))) {
+        if (SharedObjects.isNetworkConnected(Objects.requireNonNull(activity!!))) {
             val adRequest = AdRequest.Builder() //                      .addTestDevice("23F1C653C3AF44D748738885C1F91FDA")
                     .build()
             adView!!.adListener = object : AdListener() {
@@ -216,18 +217,18 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
     fun setUserData() {
         userBean = sharedObjects!!.userInfo
         if (userBean != null) {
-            if (!TextUtils.isEmpty(userBean!!.profile_pic)) {
-                Picasso.get().load(userBean!!.profile_pic)
+            if (!TextUtils.isEmpty(userBean?.profile_pic)) {
+                Picasso.get().load(userBean?.profile_pic)
                         .error(R.drawable.avatar).into(imgUser)
             } else {
                 imgUser!!.setImageDrawable(ContextCompat.getDrawable(activity!!, R.drawable.avatar))
             }
-            if (!TextUtils.isEmpty(userBean!!.name)) {
+            if (!TextUtils.isEmpty(userBean?.name)) {
                 txtUserName!!.text = "Hi, " + userBean!!.name
             } else {
                 txtUserName!!.text = "Hi, "
             }
-            databaseManager!!.getMeetingHistoryByUser(sharedObjects!!.userInfo.id) // meetingid by userid
+            databaseManager!!.getMeetingHistoryByUser(sharedObjects?.userInfo?.id!!) // meetingid by userid
         } else {
             txtUserName!!.text = "Hi, "
             imgUser!!.setImageDrawable(ContextCompat.getDrawable(activity!!, R.drawable.avatar))
@@ -275,7 +276,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
         })
         meetingHistoryAdapter = MeetingHistoryAdapter(arrMeetingHistory, activity)
         rvHistory!!.adapter = meetingHistoryAdapter
-        rvHistory!!.addItemDecoration(SimpleDividerItemDecoration(activity))
+        rvHistory!!.addItemDecoration(SimpleDividerItemDecoration(activity!!))
         meetingHistoryAdapter!!.setOnItemClickListener(object : MeetingHistoryAdapter.OnItemClickListener {
             override fun onItemClickListener(position: Int, bean: MeetingHistory) {}
             override fun onDeleteClickListener(position: Int, bean: MeetingHistory) {
@@ -402,14 +403,16 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 inputLayoutCode!!.isErrorEnabled = false
                 inputLayoutCode!!.error = ""
-                if (charSequence.length == 16) {
+                if (charSequence.length >= 16) {
                     checkMeetingExists(charSequence.toString())
                 } else {
                     isMeetingExist = false
                 }
             }
 
-            override fun afterTextChanged(editable: Editable) {}
+            override fun afterTextChanged(editable: Editable) {
+
+            }
         })
         edtName!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -420,7 +423,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged {
 
             override fun afterTextChanged(editable: Editable) {}
         })
-
+        //Log.e((AppConstants.USER_INFO))
         val btnAdd = dialogDate.findViewById<Button>(R.id.btnAdd)
         val btnCancel = dialogDate.findViewById<Button>(R.id.btnCancel)
         btnAdd.setOnClickListener(View.OnClickListener {

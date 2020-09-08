@@ -32,6 +32,9 @@ allprojects {
             url  "https://adcolony.bintray.com/AdColony"
         }
         maven { url 'https://jitpack.io' }
+        maven {
+            url "https://sdk.smartlook.com/android/release"
+        }
     }
 }
 
