@@ -93,4 +93,9 @@
     <string name="add_to_calendar">Add to Calendar</string>
     <string name="update_now">Update Now</string>
     <string name="or_continue_with">OR continue with</string>
+    <string name="explore">Explore</string>
+    <string name="no_explore_found">Explore not available</string>
+    <string name="title_activity_video_play_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import butterknife.BindView
@@ -24,6 +26,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import download.crossally.apps.hizkiyyah.IntroActivity
+import download.crossally.apps.hizkiyyah.explore.ExploreFragment
 import download.crossally.apps.hizkiyyah.firebase.DatabaseManager
 import download.crossally.apps.hizkiyyah.firebase.DatabaseManager.OnUserListener
 import download.crossally.apps.hizkiyyah.home.HomeFragment
@@ -100,6 +103,10 @@ class MainActivity : AppCompatActivity() {
                     })
             appUpdaterUtils.start()
         }
+        val content: CoordinatorLayout = findViewById(R.id.container)
+        content.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
     }
 
     private fun launchUpdateDialog(onlineVersion: String) {
@@ -141,6 +148,16 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_settings -> {
                 fragmentClass = SettingsFragment::class.java
+                try {
+                    fragment = fragmentClass.newInstance() as Fragment
+                    loadFragment(fragment, menuItem)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_explore -> {
+                fragmentClass = ExploreFragment::class.java
                 try {
                     fragment = fragmentClass.newInstance() as Fragment
                     loadFragment(fragment, menuItem)

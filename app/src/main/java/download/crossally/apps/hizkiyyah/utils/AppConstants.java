@@ -29,6 +29,7 @@ public class AppConstants {
     public static class Table {
         public static String USERS = "Users";
         public static String MEETING_HISTORY = "MeetingHistory";
+        public static String VIDEO_LIST = "videoList";
         public static String MEETING_ID = "MeetingId";
         public static String SCHEDULE = "Schedule";
     }

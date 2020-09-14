@@ -4,10 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.view.WindowManager
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +38,10 @@ class SplashActivity : AppCompatActivity() {
         sharedObjects = SharedObjects(this@SplashActivity)
         ButterKnife.bind(this)
         txtVersionName!!.text = getString(R.string.version, SharedObjects.getVersion(this@SplashActivity))
+        val content: RelativeLayout = findViewById(R.id.contSplash)
+        content.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         Handler().postDelayed({
             val intentLogin: Intent
             if (firebaseAuth!!.currentUser != null) {

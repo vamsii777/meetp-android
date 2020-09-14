@@ -16,9 +16,9 @@ android {
         applicationId "download.crossally.apps.hizkiyyah"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 15
+        versionCode 16
         multiDexEnabled true
-        versionName "1.1.15"
+        versionName "1.2.16"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -40,6 +40,10 @@ android {
         generateStubs = true
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
 }
 
 dependencies {
@@ -58,6 +62,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.jakewharton:butterknife:10.2.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
@@ -66,12 +71,21 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    // Jetpack Navigation
+    def nav_version = "2.3.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    // FirebaseUI for Real-time database
+    implementation 'com.firebaseui:firebase-ui-database:6.2.0'
+    // Paging Library (For Pagination Only)
+    implementation 'android.arch.paging:runtime:1.0.1'
     // Recommended: Add the Firebase SDK for Google Analytics.
     implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
     // Add the Firebase Crashlytics SDK.
     implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
     // debugImplementation because LeakCanary should only run in debug builds.
+    implementation 'com.squareup.picasso:picasso:2.71828'  // picasso library
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     implementation('org.jitsi.react:jitsi-meet-sdk:2.9.3') { transitive = true }
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
@@ -83,6 +97,8 @@ dependencies {
     implementation 'com.vungle:publisher-sdk-android:6.7.0'
     implementation 'com.google.ads.mediation:vungle:6.7.0.0'
     implementation 'com.google.ads.mediation:mopub:5.13.1.0'
+    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:1.0.15'
+    implementation 'com.github.halilozercan:BetterVideoPlayer:kotlin-SNAPSHOT'
     implementation 'com.google.ads.mediation:facebook:5.11.0.0'
     implementation 'com.google.ads.mediation:adcolony:4.1.4.1'
     // Add the dependency for the Performance Monitoring library

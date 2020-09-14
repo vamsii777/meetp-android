@@ -6,8 +6,10 @@ import com.google.firebase.database.*
 import download.crossally.apps.hizkiyyah.bean.MeetingHistory
 import download.crossally.apps.hizkiyyah.bean.Schedule
 import download.crossally.apps.hizkiyyah.bean.UserBean
+import download.crossally.apps.hizkiyyah.bean.VideoList
 import download.crossally.apps.hizkiyyah.utils.AppConstants
 import download.crossally.apps.hizkiyyah.utils.SharedObjects
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -18,6 +20,7 @@ class DatabaseManager(var context: Context) {
     private val mDatabase: FirebaseDatabase
     var databaseUsers: DatabaseReference
     var databaseMeetingHistory: DatabaseReference
+    var databaseExplore: DatabaseReference
     var databaseSchedule: DatabaseReference
     private var mDatabaseListener: OnDatabaseDataChanged? = null
     private var onUserAddedListener: OnUserAddedListener? = null
@@ -27,6 +30,8 @@ class DatabaseManager(var context: Context) {
     private val onMeetingHistoryListener: OnMeetingHistoryListener? = null
     private val onUserDeleteListener: OnUserDeleteListener? = null
     var userMeetingHistory = ArrayList<MeetingHistory>()
+    var userExplore = ArrayList<VideoList>()
+    var explore = ArrayList<VideoList>()
     var userSchedule = ArrayList<Schedule>()
     var users = ArrayList<UserBean>()
     var sharedObjects: SharedObjects
@@ -242,6 +247,33 @@ class DatabaseManager(var context: Context) {
         })
     }
 
+    fun getVideoList() {
+        val query = databaseExplore.orderByChild("timestamp")
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                userExplore = ArrayList<VideoList>()
+                if (dataSnapshot.exists()) {
+                    for (postSnapshot in dataSnapshot.children) {
+                        val explore = postSnapshot.getValue(VideoList::class.java)
+                            if (explore != null) {
+                                userExplore.add(explore)
+                                Timber.d(explore.toString())
+                            }
+                    }
+                }
+                if (mDatabaseListener != null) {
+                    mDatabaseListener!!.onDataChanged(AppConstants.Table.VIDEO_LIST, dataSnapshot)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                if (mDatabaseListener != null) {
+                    mDatabaseListener!!.onCancelled(databaseError)
+                }
+            }
+        })
+    }
+
     fun deleteMeetingHistory(bean: MeetingHistory) {
         databaseMeetingHistory.child(bean.id).removeValue { databaseError, databaseReference ->
             if (databaseError != null) {
@@ -318,6 +350,8 @@ class DatabaseManager(var context: Context) {
         databaseUsers.keepSynced(true)
         databaseMeetingHistory = mDatabase.getReference(AppConstants.Table.MEETING_HISTORY)
         databaseMeetingHistory.keepSynced(true)
+        databaseExplore = mDatabase.getReference(AppConstants.Table.VIDEO_LIST)
+        databaseExplore.keepSynced(true)
         databaseSchedule = mDatabase.getReference(AppConstants.Table.SCHEDULE)
         databaseSchedule.keepSynced(true)
     }

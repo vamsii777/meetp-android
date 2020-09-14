@@ -31,7 +31,6 @@ import download.crossally.apps.hizkiyyah.R
 import download.crossally.apps.hizkiyyah.bean.MeetingHistory
 import download.crossally.apps.hizkiyyah.firebase.DatabaseManager
 import download.crossally.apps.hizkiyyah.firebase.DatabaseManager.OnDatabaseDataChanged
-import download.crossally.apps.hizkiyyah.maxloghistory.MeetingHistoryFragment
 import download.crossally.apps.hizkiyyah.meeting.MeetingActivity
 import download.crossally.apps.hizkiyyah.utils.AppConstants
 import download.crossally.apps.hizkiyyah.utils.SharedObjects

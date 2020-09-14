@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+*.json
+/download/crossally/apps/hizkiyyah/utils/SharedObjects.java

@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:installLocation="auto"
-    package="download.crossally.apps.hizkiyyah">
+    package="download.crossally.apps.hizkiyyah"
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup"
-        android:name="download.crossally.apps.hizkiyyah.utils.SharedObjects"
-        android:allowBackup="false"
+        android:name=".utils.SharedObjects"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="UnusedAttribute">
+        android:usesCleartextTraffic="true"
+        tools:ignore="UnusedAttribute"
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".videoplay.VideoPlayFullscreenActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:label="@string/title_activity_video_play_fullscreen"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullscreenTheme">
+        </activity>
+
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id"/>
+            android:value="@string/app_id" />
         <meta-data
             android:name="com.bugsnag.android.API_KEY"
-            android:value="1c5c00cec04e3f7aaca2ee68956ea883"/>
+            android:value="1c5c00cec04e3f7aaca2ee68956ea883" />
+
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|screenSize"
@@ -48,63 +56,56 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="download.crossally.apps.hizkiyyah.IntroActivity"
+            android:name=".IntroActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="download.crossally.apps.hizkiyyah.RegisterActivity"
+            android:name=".RegisterActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="download.crossally.apps.hizkiyyah.EmailVerificationActivity"
+            android:name=".EmailVerificationActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="download.crossally.apps.hizkiyyah.LoginActivity"
+            android:name=".LoginActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="download.crossally.apps.hizkiyyah.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".meeting.MeetingActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize"
-            android:name="download.crossally.apps.hizkiyyah.meeting.MeetingActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
-            android:supportsPictureInPicture="true"
-            android:label="@string/app_name"/>
-
+            android:supportsPictureInPicture="true" />
         <activity
-            android:name="download.crossally.apps.hizkiyyah.profile.ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="download.crossally.apps.hizkiyyah.schedule.ScheduleMeetingActivity"
+            android:name=".schedule.ScheduleMeetingActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
