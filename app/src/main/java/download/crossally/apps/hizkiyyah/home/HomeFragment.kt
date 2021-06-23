@@ -79,9 +79,9 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
     @BindView(R.id.llSchedule)
     var llSchedule: LinearLayout? = null
 
-    @JvmField
-    @BindView(R.id.llNewMeeting)
-    var llNewMeeting: LinearLayout? = null
+//    @JvmField
+//    @BindView(R.id.llNewMeeting)
+//    var llNewMeeting: LinearLayout? = null
     var userBean: UserBean? = null
     private var arrMeetingHistory = ArrayList<MeetingHistory>()
     var meetingHistoryAdapter: MeetingHistoryAdapter? = null
@@ -328,7 +328,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
         llError!!.visibility = View.VISIBLE
     }
 
-    @OnClick(R.id.llJoin, R.id.llNewMeeting, R.id.llSchedule)
+    @OnClick(R.id.llJoin, R.id.llSchedule)
     fun onClick(v: View) {
         when (v.id) {
             R.id.llJoin ->
@@ -342,20 +342,6 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
                     }
                 } else {
                     showMeetingCodeDialog()
-                }
-            }
-
-            R.id.llNewMeeting -> {
-                loadInterstitial()
-                AppConstants.MEETING_ID = AppConstants.meetingCode
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkAppPermissions(appPermissions)) {
-                        showMeetingShareDialog()
-                    } else {
-                        requestAppPermissions(appPermissions)
-                    }
-                } else {
-                    showMeetingShareDialog()
                 }
             }
             R.id.llSchedule -> startActivity(Intent(activity, ScheduleMeetingActivity::class.java))
