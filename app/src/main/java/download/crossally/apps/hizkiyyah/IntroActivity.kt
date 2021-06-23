@@ -234,34 +234,11 @@ class IntroActivity : AppCompatActivity() {
         val btnAdd = dialogDate.findViewById<Button>(R.id.btnAdd)
         val btnCancel = dialogDate.findViewById<Button>(R.id.btnCancel)
         btnAdd.setOnClickListener(View.OnClickListener {
-            val query = databaseReferenceMeetingId!!.orderByChild("meeting_id").equalTo(edtCode!!.getText().toString())
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Timber.tag("Meeting").e("exists")
-                        for (postSnapshot in dataSnapshot.children) {
-                            if (postSnapshot.getValue(MeetingAuth::class.java)!!.meeting_id == edtCode!!.getText().toString()) {
-                                //isMeetingExist = true
-                                AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
-                                AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
-                                dialogDate.dismiss()
-                                startActivity(Intent(this@IntroActivity, MeetingActivity::class.java))
+            AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
+            AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
+            dialogDate.dismiss()
+            startActivity(Intent(this@IntroActivity, MeetingActivity::class.java))
 
-                            }
-                        }
-
-                    } else {
-                        //isMeetingExist = false
-                        nonLicenseUser()
-                        //Toast.makeText(this@IntroActivity,"Error! Unauthorized meeting not allowed", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    isMeetingExist = false
-                }
-            })
             if (TextUtils.isEmpty(edtCode!!.getText().toString().trim { it <= ' ' })) {
                 inputLayoutCode!!.isErrorEnabled = true
                 inputLayoutCode!!.setError(getString(R.string.errMeetingCode))
@@ -302,7 +279,7 @@ class IntroActivity : AppCompatActivity() {
                     AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
                     AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
                     dialogDate.dismiss()
-                    startActivity(Intent(this@IntroActivity, NewMeetingActivity::class.java))
+                    startActivity(Intent(this@IntroActivity, MeetingActivity::class.java))
                 } else {
                     inputLayoutCode!!.isErrorEnabled = true
                     inputLayoutCode!!.setError("MeetingID doesn't exist")

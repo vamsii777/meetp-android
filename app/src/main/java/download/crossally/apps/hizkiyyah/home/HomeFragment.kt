@@ -411,8 +411,6 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
         inputLayoutName = dialogDate.findViewById(R.id.inputLayoutName)
         edtCode = dialogDate.findViewById(R.id.edtCode)
         edtName = dialogDate.findViewById(R.id.edtName)
-        inputLayoutName!!.isEnabled = false
-        edtName!!.isEnabled = false
         edtName!!.setText(sharedObjects!!.userInfo()?.name)
         edtCode!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -443,36 +441,14 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
         val btnAdd = dialogDate.findViewById<Button>(R.id.btnAdd)
         val btnCancel = dialogDate.findViewById<Button>(R.id.btnCancel)
         btnAdd.setOnClickListener(View.OnClickListener {
-            val query = databaseReferenceMeetingId!!.orderByChild("meeting_id").equalTo(edtCode!!.getText().toString())
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Timber.tag("Meeting").e("exists")
-                        for (postSnapshot in dataSnapshot.children) {
-                            if (postSnapshot.getValue(MeetingAuth::class.java)!!.meeting_id == edtCode!!.getText().toString()) {
-                                //isMeetingExist = true
-                                AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
-                                AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
-                                dialogDate.dismiss()
-                                startActivity(Intent(activity, MeetingActivity::class.java))
-                                val params = Bundle()
-                                params.putString("meeting_id", edtCode!!.getText().toString())
-                                mFirebaseAnalytics!!.logEvent("meetings_data", params)
-                            }
-                        }
+            AppConstants.MEETING_ID = edtCode!!.getText().toString().trim { it <= ' ' }
+            AppConstants.NAME = edtName!!.getText().toString().trim { it <= ' ' }
+            dialogDate.dismiss()
+            startActivity(Intent(activity, MeetingActivity::class.java))
+            val params = Bundle()
+            params.putString("meeting_id", edtCode!!.getText().toString())
+            mFirebaseAnalytics!!.logEvent("meetings_data", params)
 
-                    } else {
-                        //isMeetingExist = false
-                       nonLicenseUser()
-                        //Toast.makeText(requireActivity(),"Error! Unauthorized meeting not allowed",Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    isMeetingExist = false
-                }
-            })
             if (TextUtils.isEmpty(edtCode!!.getText().toString().trim { it <= ' ' })) {
                 inputLayoutCode!!.isErrorEnabled = true
                 inputLayoutCode!!.error = getString(R.string.errMeetingCode)

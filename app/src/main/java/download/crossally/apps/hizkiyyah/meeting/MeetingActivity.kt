@@ -79,6 +79,7 @@ class MeetingActivity : FragmentActivity(), JitsiMeetActivityInterface {
                     .setFeatureFlag("pip.enabled", true)
                     .setFeatureFlag("conference-timer.enabled", true)
                     .setFeatureFlag("resolution", true)
+                    .setFeatureFlag("chat.enabled", false)
                     .setVideoMuted(true)
                     .setAudioMuted(true)
                     .setWelcomePageEnabled(false)
