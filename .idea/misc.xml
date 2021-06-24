@@ -3,10 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bg_primary_5dp.xml" value="0.331" />
+        <entry key="app/src/main/res/drawable/divider_rv.xml" value="0.331" />
+        <entry key="app/src/main/res/drawable/grad.xml" value="0.331" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.331" />
+        <entry key="app/src/main/res/drawable/ic_meeting.xml" value="0.331" />
+        <entry key="app/src/main/res/layout/activity_intro.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/dialog_meeting_code.xml" value="0.182518115942029" />
-        <entry key="app/src/main/res/layout/dialog_meeting_info.xml" value="0.182518115942029" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_video_play_fullscreen.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/dialog_forgot_password.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/dialog_image_picker.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/dialog_meeting_code.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/dialog_meeting_info.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_meeting_share.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.35526315789473684" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.331" />
       </map>
     </option>
   </component>
