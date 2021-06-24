@@ -7,11 +7,11 @@
             android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
 
-        <item
-            android:id="@+id/nav_explore"
-            android:icon="@drawable/ic_outline_explore_24"
-            android:visible="true"
-            android:title="@string/explore" />
+<!--        <item-->
+<!--            android:id="@+id/nav_explore"-->
+<!--            android:icon="@drawable/ic_outline_explore_24"-->
+<!--            android:visible="true"-->
+<!--            android:title="@string/explore" />-->
 
 <!--        <item-->
 <!--            android:id="@+id/nav_meeting_history"-->

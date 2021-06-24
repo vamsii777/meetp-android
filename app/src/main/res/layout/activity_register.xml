@@ -123,18 +123,17 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnRegister"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
+
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content"
+                    android:layout_height="59dp"
                     android:text="@string/register"
                     android:textColor="@color/white"
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     app:rippleColor="@color/colorPrimaryRipple"
                     app:backgroundTint="@color/colorPrimary"
-                    app:cornerRadius="10dp" />
+                    app:cornerRadius="4dp" />
 
                 <TextView
                     android:paddingTop="15dp"

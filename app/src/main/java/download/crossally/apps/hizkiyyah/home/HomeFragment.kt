@@ -18,6 +18,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
@@ -106,7 +107,7 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
+    private final var TAG = "HomeFrag"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         ButterKnife.bind(this, view)
@@ -123,19 +124,19 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
 
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(requireActivity(),"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(requireContext(),"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                //Log.d(TAG, adError?.message)
+                Log.d(TAG, adError?.message)
                 mInterstitialAd = null
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                //Log.d(TAG, 'Ad was loaded.')
+                Log.d(TAG, "Ad was loaded.".toString())
                 mInterstitialAd = interstitialAd
             }
         })
 
-        //mInterstitialAd!!.adUnitId = getString(R.string.meet_interstitial)
+
         bindAdvtView()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!checkAppPermissions(appPermissions)) {
@@ -143,26 +144,16 @@ class HomeFragment : Fragment(), OnDatabaseDataChanged{
             }
         }
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
+        loadInterstitial()
         return view
     }
 
     private fun loadInterstitial() {
-        val adRequest = AdRequest.Builder() //                .addTestDevice("23F1C653C3AF44D748738885C1F91FDA")
-                .build()
-
-        // Load ads into Interstitial Ads
-        //mInterstitialAd!!.loadAd(adRequest)
-        // mInterstitialAd!!.adListener = object : AdListener() {
-        //    override fun onAdLoaded() {
-        //        showInterstitial()
-        //    }
-        //}
-    }
-
-    private fun showInterstitial() {
-//        if (mInterstitialAd!!.isLoaded) {
-//            mInterstitialAd!!.show()
-//        }
+        if (mInterstitialAd != null) {
+            mInterstitialAd?.show(requireActivity())
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+        }
     }
 
     private fun bindAdvtView() {

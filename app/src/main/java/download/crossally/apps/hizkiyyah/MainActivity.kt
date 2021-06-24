@@ -171,16 +171,16 @@ class MainActivity : AppCompatActivity(){
                 }
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.nav_explore -> {
-                fragmentClass = ExploreFragment::class.java
-                try {
-                    fragment = fragmentClass.newInstance() as Fragment
-                    loadFragment(fragment, menuItem)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                return@OnNavigationItemSelectedListener true
-            }
+//            R.id.nav_explore -> {
+//                fragmentClass = ExploreFragment::class.java
+//                try {
+//                    fragment = fragmentClass.newInstance() as Fragment
+//                    loadFragment(fragment, menuItem)
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//                return@OnNavigationItemSelectedListener true
+//            }
 //            R.id.nav_meeting_history -> {
 //                fragmentClass = MeetingHistoryFragment::class.java
 //                try {
