@@ -72,7 +72,7 @@
             android:textAllCaps="false"
             app:rippleColor="@color/colorPrimaryRipple"
             app:backgroundTint="@color/colorPrimary"
-            app:cornerRadius="8dp" />
+            app:cornerRadius="4dp" />
 
     </LinearLayout>
 
