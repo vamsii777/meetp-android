@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/appBg"
+    android:background="@drawable/grad"
     android:fitsSystemWindows="true"
     tools:context="download.crossally.apps.hizkiyyah.IntroActivity">
 
@@ -52,6 +52,7 @@
             android:orientation="vertical">
 
             <androidx.viewpager.widget.ViewPager
+                android:background="@color/white"
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

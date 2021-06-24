@@ -5,32 +5,45 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/contSplash"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/grad"
     tools:context="download.crossally.apps.hizkiyyah.SplashActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img"
-            android:background="@drawable/ic_meeting"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp"
-            android:fitsSystemWindows="true" />
+            android:background="@drawable/ic_meeting"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY" />
 
         <TextView
-            android:text="@string/app_name"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textAppearance="@style/FontPath.Medium"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="Cloud Meetings Made Easy"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
