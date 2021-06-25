@@ -85,12 +85,13 @@
     <string name="meeting_saved">Meeting Saved</string>
     <string name="meeting_scheduled">Meeting Scheduled</string>
 
-    <string name="app_id">ca-app-pub-9530431913684433~9725700609</string>
-<!--    <string name="meet_banner">ca-app-pub-9530431913684433/2722212514</string>-->
+<!--    <string name="app_id">ca-app-pub-9530431913684433~9725700609</string>-->
+    <string name="meet_banner">ca-app-pub-9530431913684433/2722212514</string>
 
-    <string name="meet_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="app_id">ca-app-pub-9530431913684433~9725700609</string>
+
 <!--    <string name="meet_interstitial">ca-app-pub-9530431913684433/8428645390</string>-->
-    <string name="meet_interstitial">ca-app-pub-3940256099942544/1033173712</string>
+<!--    <string name="meet_interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
 
     <string name="done">Done</string>
     <string name="add_to_calendar">Add to Calendar</string>
