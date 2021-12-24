@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#1B90F6</color>
-    <color name="colorPrimaryDark">#1B7EF6</color>
-    <color name="colorPrimaryTrans">#201B6EF6</color>
-    <color name="colorAccent">#1B97F6</color>
-    <color name="colorPrimaryRipple">#421B6EF6</color>
-    <color name="colorAccentRipple">#421B6EF6</color>
+    <color name="colorPrimary">#3E3EFE</color>
+    <color name="colorPrimaryDark">#3E3EFE</color>
+    <color name="colorPrimaryTrans">#3E3EFE</color>
+    <color name="colorAccent">#1E18C5</color>
+    <color name="colorPrimaryRipple">#423C1BF6</color>
+    <color name="colorAccentRipple">#42311BF6</color>
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#616161</color>
     <color name="new_meeting">#FF9800</color>  <!--ff5722-->

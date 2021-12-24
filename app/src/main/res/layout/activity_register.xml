@@ -29,7 +29,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:background="@drawable/ic_meeting"
+                    android:background="@mipmap/ic_launcher"
                     android:layout_width="115dp"
                     android:paddingBottom="12dp"
                     android:layout_height="115dp" />

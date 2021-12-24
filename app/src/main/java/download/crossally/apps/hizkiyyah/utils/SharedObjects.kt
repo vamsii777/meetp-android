@@ -1,6 +1,7 @@
 package download.crossally.apps.hizkiyyah.utils
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -9,7 +10,6 @@ import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.multidex.MultiDexApplication
 import com.bugsnag.android.Bugsnag
 import com.facebook.stetho.Stetho
 import com.google.firebase.database.FirebaseDatabase
@@ -25,7 +25,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SharedObjects : MultiDexApplication {
+class SharedObjects : Application {
     var sharedPreference: SharedPreferences? = null
     var editor: SharedPreferences.Editor? = null
 

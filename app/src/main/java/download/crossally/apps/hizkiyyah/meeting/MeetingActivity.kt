@@ -85,14 +85,13 @@ class MeetingActivity : FragmentActivity(), JitsiMeetActivityInterface {
                     .setFeatureFlag("meeting-password.enabled", false)
                     .setVideoMuted(true)
                     .setAudioMuted(true)
-                    .setWelcomePageEnabled(false)
                     .build()
         } catch (e: MalformedURLException) {
             e.printStackTrace()
         }
-        if (meetingHistory != null) {
-            meetingHistory!!.subject = options!!.subject
-        }
+//        if (meetingHistory != null) {
+//            meetingHistory!!.subject = options!!.room.
+//        }
         view!!.join(options)
         view!!.listener = object : JitsiMeetViewListener {
             override fun onConferenceJoined(map: Map<String, Any>) {
@@ -198,6 +197,7 @@ class MeetingActivity : FragmentActivity(), JitsiMeetActivityInterface {
             requestCode: Int,
             permissions: Array<String>,
             grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         JitsiMeetActivityDelegate.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 

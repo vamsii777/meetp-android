@@ -111,7 +111,7 @@ class IntroActivity : AppCompatActivity() {
         //arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_1), "Start a Meeting"))
         //arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_2), "Schedule Your Meeting"))
         //arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_slider_3), "Message Your Team"))
-        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.drawable.ic_meeting), "Welcome to Meetp!"))
+        arrSlider.add(Intro(ContextCompat.getDrawable(this@IntroActivity, R.mipmap.ic_launcher), "Welcome to Meetp!"))
         introPagerAdapter = IntroPagerAdapter(this@IntroActivity, arrSlider)
         viewPager!!.adapter = introPagerAdapter
         circleIndicator!!.setViewPager(viewPager)

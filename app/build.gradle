@@ -4,19 +4,18 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "com.bugsnag.android.gradle"
-apply plugin: 'com.google.firebase.firebase-perf'
+//apply plugin: 'com.google.firebase.firebase-perf'
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '30.0.3'
     defaultConfig {
         applicationId "download.crossally.apps.hizkiyyah"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 20
-        multiDexEnabled true
-        versionName  "1.4.21"
+        targetSdkVersion 31
+        versionCode 21
+        versionName  "1.6.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -26,19 +25,18 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            multiDexKeepFile file('multidex-config.txt')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     packagingOptions {
@@ -46,59 +44,58 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     ndkVersion '22.0.6917172 rc1'
-
+    googleServices.disableVersionCheck = true
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:26.3.0')
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.32"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.32"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0"
     implementation('com.smartlook.recording:app:1.5.2-native')
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.android.material:material:1.4.0-alpha02'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'com.google.android.material:material:1.6.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.android.gms:play-services-ads:20.2.0'
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp:1.5.1'
-    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
+    implementation 'com.google.android.gms:play-services-ads:20.5.0'
+    implementation 'com.facebook.stetho:stetho:1.6.0'
+    implementation 'com.facebook.stetho:stetho-okhttp:1.6.0'
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
-    implementation 'com.google.firebase:firebase-firestore:22.1.2'
+    implementation 'com.google.firebase:firebase-firestore:24.0.0'
     kapt 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
     implementation 'me.relex:circleindicator:2.1.4'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.6'
     // Jetpack Navigation
-    def nav_version = '2.3.2'
+    def nav_version = '2.3.5'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // FirebaseUI for Real-time database
-    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.0'
     // Paging Library (For Pagination Only)
-    implementation 'androidx.paging:paging-runtime-ktx:3.0.0'
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0'
     // Recommended: Add the Firebase SDK for Google Analytics.
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.4.1'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.6'
     // debugImplementation because LeakCanary should only run in debug builds.
     implementation 'com.squareup.picasso:picasso:2.71828'  // picasso library
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
-    implementation('org.jitsi.react:jitsi-meet-sdk:3.0.0') { transitive = true }
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
+    implementation('org.jitsi.react:jitsi-meet-sdk:4.1.0') { transitive = true }
 
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
     implementation 'com.github.ajalt:timberkt:1.5.1'
@@ -106,22 +103,22 @@ dependencies {
     implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
     implementation 'com.github.florent37:diagonallayout:1.0.9'
     implementation 'com.github.javiersantos:AppUpdater:2.7'
-    implementation 'com.vungle:publisher-sdk-android:6.7.0'
-    implementation 'com.google.ads.mediation:vungle:6.9.1.1'
-    implementation 'com.google.ads.mediation:mopub:5.17.0.0'
-    implementation 'com.google.android.play:core:1.10.0'
-    implementation 'com.adcolony:sdk:4.5.0'
+    implementation 'com.vungle:publisher-sdk-android:6.10.2'
+    implementation 'com.google.ads.mediation:vungle:6.10.2.0'
+    implementation 'com.google.ads.mediation:mopub:5.18.0.0'
+    implementation 'com.google.android.play:core:1.10.2'
+    implementation 'com.adcolony:sdk:4.6.5'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     //implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:1.0.16'
     //implementation 'com.github.halilozercan:BetterVideoPlayer:kotlin-SNAPSHOT'
-    implementation 'com.google.ads.mediation:facebook:6.5.0.0'
-    implementation 'com.google.ads.mediation:adcolony:4.5.0.0'
+    implementation 'com.google.ads.mediation:facebook:6.8.0.0'
+    implementation 'com.google.ads.mediation:adcolony:4.6.5.0'
     // Add the dependency for the Performance Monitoring library
-    implementation 'com.google.firebase:firebase-perf-ktx'
-    implementation "com.bugsnag:bugsnag-android:5.0.2"
+    //implementation 'com.google.firebase:firebase-perf-ktx'
+    implementation 'com.bugsnag:bugsnag-android:5.17.0'
     testImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
 android.buildTypes.release.ndk.debugSymbolLevel = 'FULL'

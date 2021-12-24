@@ -8,8 +8,10 @@
         <entry key="app/src/main/res/drawable/grad.xml" value="0.331" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.331" />
         <entry key="app/src/main/res/drawable/ic_meeting.xml" value="0.331" />
+        <entry key="app/src/main/res/layout/activity_email_verification.xml" value="0.2069402228976697" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2069402228976697" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.33" />
@@ -20,12 +22,17 @@
         <entry key="app/src/main/res/layout/dialog_meeting_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_meeting_share.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.35526315789473684" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.2069402228976697" />
+        <entry key="app/src/main/res/layout/itemview_intro.xml" value="0.2069402228976697" />
+        <entry key="app/src/main/res/layout/itemview_meeting_history.xml" value="0.20572916666666666" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/menu/menu_navigation_drawer.xml" value="0.418974358974359" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2345" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.331" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17_PREVIEW" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

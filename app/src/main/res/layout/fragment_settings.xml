@@ -69,12 +69,13 @@
                             android:background="@drawable/ic_circle"
                             android:layout_width="35dp"
                             android:layout_height="35dp" >
+
                             <ImageView
-                                android:backgroundTint="@color/colorPrimary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/ic_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:backgroundTint="@color/appBg" />
                         </RelativeLayout>
 
                         <TextView
@@ -113,12 +114,13 @@
                             android:background="@drawable/ic_circle"
                             android:layout_width="35dp"
                             android:layout_height="35dp" >
+
                             <ImageView
-                                android:backgroundTint="@color/colorPrimary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/ic_rate_us"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:backgroundTint="@color/appBg" />
                         </RelativeLayout>
 
                         <TextView
@@ -159,7 +161,7 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp" >
                             <ImageView
-                                android:backgroundTint="@color/colorPrimary"
+                                android:backgroundTint="@color/appBg"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/ic_shield"
                                 android:layout_width="20dp"
@@ -203,7 +205,7 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp" >
                             <ImageView
-                                android:backgroundTint="@color/colorPrimary"
+                                android:backgroundTint="@color/appBg"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/ic_writing"
                                 android:layout_width="20dp"
@@ -247,7 +249,7 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp" >
                             <ImageView
-                                android:backgroundTint="@color/colorPrimary"
+                                android:backgroundTint="@color/appBg"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/ic_logout"
                                 android:layout_width="wrap_content"
@@ -279,7 +281,6 @@
                             android:layout_weight="1"
                             android:layout_marginLeft="10dp"
                             android:layout_height="wrap_content"
-                            android:text="“All the videos, songs, images, and graphics used in the explore section belongs to their respective owners and this app does not claim any right over them. Copyright Disclaimer under section 107 of the Copyright Act of 1976, allowance is made for “fair use” for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research. Fair use is a use permitted by copyright statute that might otherwise be infringing.”"
                             android:textSize="8sp"
                             android:textAlignment="textStart"
                             android:textColor="@color/primaryText" />

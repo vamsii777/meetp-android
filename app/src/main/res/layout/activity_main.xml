@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:foreground="?attr/selectableItemBackground"
+        app:backgroundTint="@color/colorPrimary"
         app:itemIconTint="@color/nav_selector"
         app:itemTextColor="@color/nav_text_selector"
         app:labelVisibilityMode="labeled"
